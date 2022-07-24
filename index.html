@@ -86,6 +86,27 @@
 </script>
 
 <script>
+    document.querySelector("audio").play();
+    let startPlayPromise = audioElem.play();
+    if (startPlayPromise !== undefined) {
+    startPlayPromise.catch(error => {
+        if (error.name === "NotAllowedError") {
+          // 弹窗引导用户与页面做交互，只需要一个简单的按钮即可
+          // 记得在按钮上绑定一个带有play()方法的回调函数，以element-plus的组件为例
+          ElMessageBox.alert('当前正在自动播放音频', '提示', {
+            confirmButtonText: '确认',
+            callback: () => {
+                 audioElem.play();
+          },
+        })
+    } else {
+      // Handle a load or playback error
+    }
+  }).then(() => {
+    // Start whatever you need to do only after playback
+    // has begun.
+  });
+}
     (function () {
         var canvas = $('#canvas');
 
